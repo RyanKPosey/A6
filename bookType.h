@@ -232,6 +232,25 @@ class BookType {
      */
     bool operator>=(const BookType &other) const;
     /// @}
+
+    /// @name Friend Functions
+    /// @{
+    /**
+     * @brief Stream insertion operator for formatted book output.
+     * @param os Output stream to write to.
+     * @param book Book record to display.
+     * @return Reference to the same output stream for chaining.
+     */
+    friend std::ostream &operator<<(std::ostream &os, const BookType &book);
+    /**
+     * @brief Stream extraction operator for interactive book input.
+     * @param is Input stream to read from.
+     * @param book Book record to populate.
+     * @return Reference to the same input stream for chaining.
+     */
+    friend std::istream &operator>>(std::istream &is, BookType &book);
+    /// @}
+    
   protected:
     std::string bookTitle; ///< Book title.
     std::string isbn;      ///< ISBN-13 identifier.

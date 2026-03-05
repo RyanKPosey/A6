@@ -18,6 +18,8 @@
  * @see bookType.h
  */
 #include "bookType.h"
+
+#include <limits>
 /*============================================================================
  * Static Member Initialisation
  *===========================================================================*/
@@ -293,15 +295,7 @@ int BookType::getBookCount() { return bookCount; }
  * @note This method does not modify any member state (declared @c const).
  */
 void BookType::print() const {
-    std::cout << std::fixed << std::setprecision(2);
-    std::cout << "Title: " << bookTitle << '\n'
-              << "ISBN: " << isbn << '\n'
-              << "Author: " << author << '\n'
-              << "Publisher: " << publisher << '\n'
-              << "Date Added: " << dateAdded << '\n'
-              << "Qty: " << qtyOnHand << '\n'
-              << "Wholesale: $" << wholesale << '\n'
-              << "Retail: $" << retail << '\n';
+    std::cout << *this;
 }
 /**
  * @brief Compare this book with another for equality.
@@ -478,4 +472,64 @@ bool BookType::operator<=(const BookType &other) const {
  */
 bool BookType::operator>=(const BookType &other) const {
     return retail >= other.retail;
+}
+
+/**
+ * @brief Stream insertion operator for formatted book output.
+ * @param[in,out] os Output stream receiving formatted content.
+ * @param[in] book Book record to display.
+ * @return Reference to @p os for chaining.
+ */
+std::ostream &operator<<(std::ostream &os, const BookType &book) {
+    os << std::fixed << std::setprecision(2);
+    os << "\n===== Book Record =====\n"
+       << "Title:      " << book.bookTitle << '\n'
+       << "ISBN:       " << book.isbn << '\n'
+       << "Author:     " << book.author << '\n'
+       << "Publisher:  " << book.publisher << '\n'
+       << "Date Added: " << book.dateAdded << '\n'
+       << "Qty:        " << book.qtyOnHand << '\n'
+       << "Wholesale:  $" << book.wholesale << '\n'
+       << "Retail:     $" << book.retail << '\n'
+       << "========================\n";
+    return os;
+}
+
+/**
+ * @brief Stream extraction operator for interactive book input.
+ * @param[in,out] is Input stream used to read book fields.
+ * @param[out] book Book record that receives the input.
+ * @return Reference to @p is for chaining.
+ */
+std::istream &operator>>(std::istream &is, BookType &book) {
+    std::cout << "Enter book information:\n";
+
+    std::cout << "  Title:       ";
+    std::getline(is >> std::ws, book.bookTitle);
+
+    std::cout << "  ISBN:        ";
+    std::getline(is, book.isbn);
+
+    std::cout << "  Author:      ";
+    std::getline(is, book.author);
+
+    std::cout << "  Publisher:   ";
+    std::getline(is, book.publisher);
+
+    std::cout << "  Date Added:  ";
+    std::getline(is, book.dateAdded);
+
+    std::cout << "  Qty on Hand: ";
+    is >> book.qtyOnHand;
+    is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    std::cout << "  Wholesale:   ";
+    is >> book.wholesale;
+    is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    std::cout << "  Retail:      ";
+    is >> book.retail;
+    is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    return is;
 }
