@@ -12,14 +12,17 @@ int main() {
     using std::cout;
 
     BookType book1;
+    // Use input operator from friend function
     cin >> book1;
-
+    // Use output operator from friend function
     cout << book1;
 
-    BookType book2("The C Programming Language", "978-0131103627",
-                   "Brian W. Kernighan and Dennis M. Ritchie",
-                   "Prentice Hall", "01/01/2026", 8, 32.50f, 59.99f);
+    // Create book with constructor
+    BookType book2("The C Plus Plus Programming Language", "923-9210293837",
+                   "Super Cool Awesome Guy",
+                   "Carnegie Hall", "04/03/2026", 10, 32.50f, 59.99f);
 
+    // Chain ostream friend function calls
     cout << "\nChained Output Demo:\n";
     cout << book1 << "\n" << book2;
 
